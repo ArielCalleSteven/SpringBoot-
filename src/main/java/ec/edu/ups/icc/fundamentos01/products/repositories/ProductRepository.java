@@ -17,17 +17,19 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByOwnerId(Long userId);
 
 
-@Query("SELECT p FROM ProductEntity p WHERE p.owner.id = :userId " +
-           "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
-           "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
-           "AND (:maxPrice IS NULL OR p.price <= :maxPrice) " +
-           "AND (:categoryId IS NULL OR EXISTS (SELECT c FROM p.categories c WHERE c.id = :categoryId))")
-    List<ProductEntity> searchProductsByUserId(
-            @Param("userId") Long userId,
-            @Param("name") String name,
-            @Param("minPrice") Double minPrice,
-            @Param("maxPrice") Double maxPrice,
-            @Param("categoryId") Long categoryId
-    );
-    
+@Query("SELECT DISTINCT p FROM ProductEntity p " +
+       "LEFT JOIN p.categories c " +
+       "WHERE p.owner.id = :userId " +
+       "AND (:name IS NULL OR p.name ILIKE %:name%) " + 
+       "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
+       "AND (:maxPrice IS NULL OR p.price <= :maxPrice) " +
+       "AND (:categoryId IS NULL OR c.id = :categoryId)")
+List<ProductEntity> findByUserWithFilters(
+        @Param("userId") Long userId,
+        @Param("name") String name,
+        @Param("minPrice") Double minPrice,
+        @Param("maxPrice") Double maxPrice,
+        @Param("categoryId") Long categoryId
+);
+
 }

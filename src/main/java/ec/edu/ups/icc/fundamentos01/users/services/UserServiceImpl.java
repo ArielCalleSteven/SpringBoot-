@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Usuario no encontrado con ID: " + userId);
         }
 
-        return productRepo.searchProductsByUserId(userId, name, minPrice, maxPrice, categoryId)
+        return productRepo.findByUserWithFilters(userId, name, minPrice, maxPrice, categoryId)
                 .stream()
                 .map(ProductMapper::toResponse)
                 .collect(Collectors.toList());
