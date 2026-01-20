@@ -1,5 +1,6 @@
 package ec.edu.ups.icc.fundamentos01.products.dtos;
 
+import java.time.LocalDateTime; 
 import java.util.List;
 
 public class ProductResponseDto {
@@ -7,6 +8,9 @@ public class ProductResponseDto {
     public String name;
     public Double price;
     public String description;
+
+    public LocalDateTime createdAt;
+    public LocalDateTime updatedAt;
 
     public UserSummaryDto user;
     public List<CategorySummaryDto> categories;

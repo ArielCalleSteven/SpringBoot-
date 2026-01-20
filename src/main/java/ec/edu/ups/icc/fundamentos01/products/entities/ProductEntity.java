@@ -4,6 +4,7 @@ import ec.edu.ups.icc.fundamentos01.core.entities.BaseModel;
 import ec.edu.ups.icc.fundamentos01.users.entities.UserEntity;
 import ec.edu.ups.icc.fundamentos01.categories.entities.CategoryEntity;
 import jakarta.persistence.*;
+import java.time.LocalDateTime; 
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,12 @@ public class ProductEntity extends BaseModel {
     private String name;
     private Double price;
     private String description;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -34,6 +41,11 @@ public class ProductEntity extends BaseModel {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
     public UserEntity getOwner() { return owner; }
     public void setOwner(UserEntity owner) { this.owner = owner; }
     
